@@ -25,7 +25,7 @@
         <module name="RestfulTest" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.8">
       <module name="RestfulTest" target="1.8" />
     </bytecodeTargetLevel>
   </component>
