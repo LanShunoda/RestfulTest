@@ -1,31 +1,34 @@
 package com.plorial.restfultest;
 
-import com.plorial.restfultest.pojo.Contact;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.SQLException;
 
 /**
  * Created by plorial on 9/18/16.
  */
 public class FilterTest {
 
-    List<Contact> contacts;
-
-    @Before
-    public void init(){
-        contacts = new ArrayList<>();
-        contacts.add(new Contact(1, "1"));
-        contacts.add(new Contact(2, "2"));
+    @Test
+    public void regexFilterTest(){
+        String name = "abc";
+        String regex = "^.*[dei].*$";
+        boolean contains = RegexFilter.checkWithRegex(name, regex);
+        Assert.assertTrue(contains);
     }
 
     @Test
-    public void filterTest(){
-        String regex = "^.*[2].*$";
-        Contact[] result = Filter.filterContacts(contacts, regex);
-        Assert.assertEquals(1,result[0].getId());
+    public void predictableEvaluateColumnIndexTest() throws SQLException {
+        RegexFilter filter = new RegexFilter("^.*[1].*$","name", 2);
+        boolean b = filter.evaluate(new String("2"),2);
+        Assert.assertTrue(b);
+    }
+
+    @Test
+    public void predictableEvaluateColumnNameTest() throws SQLException {
+        RegexFilter filter = new RegexFilter("^.*[1].*$","name", 2);
+        boolean b = filter.evaluate(new String("2"),"name");
+        Assert.assertTrue(b);
     }
 }
